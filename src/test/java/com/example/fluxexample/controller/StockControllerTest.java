@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import static java.time.LocalTime.now;
 
 @Slf4j
 @SpringBootTest
@@ -48,43 +48,34 @@ class StockControllerTest {
 
     @Test
     void 다건_동시_조회() {
-        IntStream.range(1,10000)
+        LongStream.range(1,10000)
                 .parallel()
                 .forEach(x->{
-                    Optional<StockRedis> byId = repository.findById(1L);
-                    System.out.println("*******************optional get 하기 전에 ");
-                    System.out.println("*******************optionalById : " + byId);
-                    System.out.println("*******************optional get 한다먄 ");
-                    System.out.println("*******************optionalById.get() : " + byId.get());
-                    System.out.println("******************************");
-                    System.out.println("******************************");
-                    System.out.println("******************************");
-                    System.out.println("******************************");
+                    Optional<StockRedis> byId = repository.findById(x % 10);
+                    System.out.println("byId = " + byId + ", tiem : " + now());
                 });
     }
 
     @Test
     void 다건_동시_재고변경() {
         IntStream.range(1,10000)
-                .parallel()
                 .forEach(x->{
 
                     System.out.println("***************Start**************");
 
                     System.out.println("*******************Stock data 조회");
-                    StockRedis byId = repository.findByProductId(1L);
+                    StockRedis byId = stockService.lookUpStock(2L);
+                    System.out.println("byId : " + byId);
 
                     System.out.println("*******************Stock data get 및 재고변경");
-                    StockRedis stock;
 
                     if(x % 2 == 1){
-                        stock = byId.increaseInventory(1);
+                        System.out.println("byId.getInventory() : " + byId.getInventory());
+                        stockService.increaseStock(2L,1);
                     } else {
-                        stock = byId.decreaseInventory(1);
+                        System.out.println("byId.getInventory() : " + byId.getInventory());
+                        stockService.increaseStock(2L,1);
                     }
-
-                    System.out.println("*******************Stock data 저장 ");
-                    repository.save(stock);
 
                     System.out.println("***************END**************");
                 });
@@ -110,7 +101,12 @@ class StockControllerTest {
     void 조회_값변경_저장() {
         IntStream.range(0,100)
                 .parallel()
-                .forEach(x -> repository.save(Stock조회.apply((long) x % 10).increaseInventory(1)));
+                .forEach(x -> {
+                    StockRedis entity = stockService.lookUpStock((long) x % 10);
+                    System.out.println("entity 조회 = " + entity + " number : " + x % 10 + " time : " + now());
+                    entity = stockService.increaseStock((long) x % 10, 1);
+                    System.out.println("entity 저장 = " + entity + " number : " + x % 10 + " time : " + now());
+                });
     }
 
     @Test

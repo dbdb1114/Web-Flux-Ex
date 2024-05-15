@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: flux-example
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/inflearn_study?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: Tlmm3PjdJ*
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: create-drop
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+    defer-datasource-initialization: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+  cache:
+    redis:
+      cache-null-values: true
+    type: redis
+

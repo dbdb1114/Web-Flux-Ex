@@ -18,11 +18,6 @@ public class RedissonConfig {
 
     private static final String REDISSON_HOST_PREFIX = "redis://";
 
-    public RedissonConfig() {
-        System.out.println("redisHost = " + redisHost);
-        System.out.println("redisPort = " + redisPort);
-    }
-
     @Bean
     public RedissonClient redissonClient() {
         RedissonClient redisson = null;
@@ -31,5 +26,4 @@ public class RedissonConfig {
         redisson = Redisson.create(config);
         return redisson;
     }
-
 }

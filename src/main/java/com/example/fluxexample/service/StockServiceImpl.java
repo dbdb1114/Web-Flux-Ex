@@ -15,7 +15,6 @@ public class StockServiceImpl implements StockService{
 
     private final StockRedisRepository stockRedisRepository;
     private final StockRepository stockRepository;
-    private final StockMapper stockMapper;
 
     @Override
     public StockRedis lookUpStock(Long productId){

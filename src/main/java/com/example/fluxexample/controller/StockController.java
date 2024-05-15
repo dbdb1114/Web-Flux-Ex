@@ -73,14 +73,14 @@ public class StockController {
     }
 
     @PutMapping("/stock/decrease")
-    public Mono<AbstractStock> decreaseStock(@RequestBody RequestStock requestStock){
+    public Mono<? extends AbstractStock> decreaseStock(@RequestBody RequestStock requestStock){
         return Mono.just(stockService.decreaseStock(requestStock.getProductId(), requestStock.getAmount()))
                 .log()
                 .doOnNext(sink::tryEmitNext);
     }
 
     @PutMapping("/stock/increase")
-    public Mono<AbstractStock> increaseStock(@RequestBody RequestStock requestStock){
+    public Mono<? extends AbstractStock> increaseStock(@RequestBody RequestStock requestStock){
         return Mono.just(stockService.increaseStock(requestStock.getProductId(), requestStock.getAmount()))
                 .log()
                 .doOnNext(sink::tryEmitNext);

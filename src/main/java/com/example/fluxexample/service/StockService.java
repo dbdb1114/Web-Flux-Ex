@@ -1,10 +1,10 @@
 package com.example.fluxexample.service;
 
-import com.example.fluxexample.entity.AbstractStock;
+import com.example.fluxexample.entity.StockRedis;
 
 public interface StockService {
 
-    AbstractStock lookUpStock(Long productId);
-    AbstractStock decreaseStock(Long productId, Integer amount);
-    AbstractStock increaseStock(Long productId, Integer amount);
+    StockRedis lookUpStock(Long productId);
+    StockRedis decreaseStock(Long productId, Integer amount);
+    StockRedis increaseStock(Long productId, Integer amount);
 }

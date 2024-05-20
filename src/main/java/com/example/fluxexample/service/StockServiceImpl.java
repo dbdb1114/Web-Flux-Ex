@@ -17,6 +17,7 @@ public class StockServiceImpl implements StockService{
     private final StockRepository stockRepository;
 
     @Override
+    @DistributedLock(key="#productId")
     public StockRedis lookUpStock(Long productId){
         return stockRedisRepository.findByProductId(productId);
     }

@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   application:
     name: flux-example
@@ -33,4 +36,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8888/eureka
-
